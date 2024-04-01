@@ -1,12 +1,9 @@
 import { getServerSession } from 'next-auth'
 import Image from 'next/image'
 import ButtonLogout from './buttonLogout'
-import { redirect } from 'next/navigation'
 
 export default async function Home() {
 	const session = await getServerSession()
-
-	// if(!session) redirect('/login')
 
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-center p-24">

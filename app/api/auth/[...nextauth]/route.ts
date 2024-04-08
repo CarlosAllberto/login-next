@@ -1,7 +1,8 @@
 import NextAuth from 'next-auth'
 import GitHubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
-import FacebookProvider from "next-auth/providers/facebook"
+import FacebookProvider from 'next-auth/providers/facebook'
+import CredentialsProvider from 'next-auth/providers/credentials'
 
 const handler = NextAuth({
 	providers: [
@@ -16,6 +17,21 @@ const handler = NextAuth({
 		FacebookProvider({
 			clientId: process.env.FACEBOOK_CLIENT_ID ?? '',
 			clientSecret: process.env.FACEBOOK_CLIENT_SECRET ?? '',
+		}),
+		CredentialsProvider({
+			name: 'Credentials',
+			credentials: {
+				username: { label: 'Username', type: 'text', placeholder: 'jsmith' },
+				password: { label: 'Password', type: 'password' },
+			},
+			async authorize(credentials, req) {
+				const user = { id: '1', name: 'J Smith', email: 'jsmith@example.com' }
+				if (user) {
+					return user
+				} else {
+					return null
+				}
+			},
 		}),
 	],
 })

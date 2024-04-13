@@ -21,11 +21,19 @@ const handler = NextAuth({
 		CredentialsProvider({
 			name: 'Credentials',
 			credentials: {
-				username: { label: 'Username', type: 'text', placeholder: 'jsmith' },
+				email: { label: 'Email', type: 'email' },
 				password: { label: 'Password', type: 'password' },
 			},
 			async authorize(credentials, req) {
-				const user = { id: '1', name: 'J Smith', email: 'jsmith@example.com' }
+				let email = credentials?.email
+				let password = credentials?.password
+
+				if (email !== 'teste@gmail.com' || password !== '123') {
+					return null
+				}
+
+				let user = { id: '1', name: 'Carlos Alberto', email, image: '/avatar.svg' }
+
 				if (user) {
 					return user
 				} else {

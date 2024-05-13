@@ -3,6 +3,9 @@ import GitHubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import FacebookProvider from 'next-auth/providers/facebook'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import bcrypt from 'bcryptjs'
+import User from '@models/User'
+import connect from '@utils/db'
 
 const handler = NextAuth({
 	providers: [
@@ -24,24 +27,46 @@ const handler = NextAuth({
 				email: { label: 'Email', type: 'email' },
 				password: { label: 'Password', type: 'password' },
 			},
-			async authorize(credentials, req) {
-				let email = credentials?.email
-				let password = credentials?.password
-
-				if (email !== 'teste@gmail.com' || password !== '123') {
-					return null
-				}
-
-				let user = { id: '1', name: 'Carlos Alberto', email, image: '/avatar.svg' }
-
-				if (user) {
-					return user
-				} else {
-					return null
+			async authorize(credentials) {
+				await connect()
+				try {
+					const user = await User.findOne({ email: credentials?.email })
+					if (user) {
+						const isPasswordCorrect = await bcrypt.compare(credentials?.password || '', user.password)
+						if (isPasswordCorrect) {
+							return user
+						}
+					}
+				} catch (err: any) {
+					throw new Error(err)
 				}
 			},
 		}),
 	],
+	callbacks: {
+		async signIn({ user, account }: any) {
+			if (account?.provider == 'credentials') {
+				return true
+			}
+
+			await connect()
+			try {
+				const existingUser = await User.findOne({ email: user.email })
+				if (!existingUser) {
+					const newUser = new User({
+						email: user.email,
+					})
+
+					await newUser.save()
+					return true
+				}
+				return true
+			} catch (err) {
+				console.log('Error saving user', err)
+				return false
+			}
+		},
+	},
 })
 
 export { handler as GET, handler as POST }

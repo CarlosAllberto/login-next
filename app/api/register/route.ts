@@ -1,10 +1,10 @@
-import User from '@/models/User'
-import connect from '@/utils/db'
+import User from '@models/User'
+import connect from '@utils/db'
 import bcrypt from 'bcryptjs'
 import { NextResponse } from 'next/server'
 
-export const POST = async (request: any) => {
-	const { email, password } = await request.json()
+export const POST = async (req: any) => {
+	const { email, password } = await req.json()
 
 	await connect()
 

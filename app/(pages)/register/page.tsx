@@ -13,9 +13,15 @@ export default function Register() {
 	}
 	const handleSubmit = async (e: any) => {
 		e.preventDefault()
-		const email = e.target[0].value
-		const password = e.target[1].value
-		const confirmPassword = e.target[2].value
+		const name = e.target[0].value
+		const email = e.target[1].value
+		const password = e.target[2].value
+		const confirmPassword = e.target[3].value
+
+		if (!name || name.length < 8) {
+			setError('Name is invalid')
+			return
+		}
 
 		if (!isValidEmail(email)) {
 			setError('Email is invalid')
@@ -39,6 +45,7 @@ export default function Register() {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
+					name,
 					email,
 					password,
 				}),
@@ -59,7 +66,7 @@ export default function Register() {
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-center p-24">
 			<form
-				className="border border-zinc-800 rounded-md p-4 bg-zinc-900 flex flex-col gap-4"
+				className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4"
 				onSubmit={handleSubmit}
 			>
 				<div>
@@ -72,9 +79,18 @@ export default function Register() {
 				) : null}
 				<div>
 					<input
+						type="text"
+						placeholder="Seu Nome"
+						id="name"
+						name="name"
+						className="w-full bg-zinc-900 border border-zinc-800 p-2 rounded-md text-white"
+					/>
+				</div>
+				<div>
+					<input
 						type="email"
 						placeholder="Seu E-mail"
-            id='email'
+						id="email"
 						name="email"
 						className="w-full bg-zinc-900 border border-zinc-800 p-2 rounded-md text-white"
 					/>
@@ -83,7 +99,7 @@ export default function Register() {
 					<input
 						type="password"
 						placeholder="Sua senha"
-            id='password'
+						id="password"
 						name="password"
 						className="w-full bg-zinc-900 border border-zinc-800 p-2 rounded-md text-white"
 					/>
@@ -92,7 +108,7 @@ export default function Register() {
 					<input
 						type="password"
 						placeholder="Confirme sua senha"
-            id='confirm-password'
+						id="confirm-password"
 						name="confirm-password"
 						className="w-full bg-zinc-900 border border-zinc-800 p-2 rounded-md text-white"
 					/>

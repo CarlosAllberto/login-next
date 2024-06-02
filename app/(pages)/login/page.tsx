@@ -41,7 +41,7 @@ export default function Login() {
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-center p-24">
 			<form
-				className="border border-zinc-800 rounded-md p-4 bg-zinc-900 flex flex-col gap-4"
+				className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4"
 				onSubmit={handleSubmit}
 			>
 				<div>

@@ -1,8 +1,8 @@
 import User from '@models/User'
 import connect from '@utils/db'
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server' 
 
-export const DELETE = async (req: any, { params }:any) => {
+export const DELETE = async (req: any, { params }: any) => {
 	const { email } = await params
 
 	await connect()

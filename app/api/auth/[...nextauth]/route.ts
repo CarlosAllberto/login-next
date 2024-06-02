@@ -32,7 +32,10 @@ const handler = NextAuth({
 				try {
 					const user = await User.findOne({ email: credentials?.email })
 					if (user) {
-						const isPasswordCorrect = await bcrypt.compare(credentials?.password || '', user.password)
+						const isPasswordCorrect = await bcrypt.compare(
+							credentials?.password || '',
+							user.password,
+						)
 						if (isPasswordCorrect) {
 							return user
 						}
@@ -58,7 +61,6 @@ const handler = NextAuth({
 					})
 
 					await newUser.save()
-					return true
 				}
 				return true
 			} catch (err) {

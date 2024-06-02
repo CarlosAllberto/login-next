@@ -4,6 +4,14 @@ const { Schema } = mongoose
 
 const userSchema = new Schema(
 	{
+		image: {
+			type: String,
+			required: false,
+		},
+		name: {
+			type: String,
+			required: false,
+		},
 		email: {
 			type: String,
 			unique: true,

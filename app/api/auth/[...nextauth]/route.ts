@@ -47,7 +47,7 @@ const handler = NextAuth({
 		}),
 	],
 	callbacks: {
-		async signIn({ user, account }: any) {
+		async signIn({ user, account }) {			
 			if (account?.provider == 'credentials') {
 				return true
 			}
@@ -58,6 +58,7 @@ const handler = NextAuth({
 				if (!existingUser) {
 					const newUser = new User({
 						email: user.email,
+						provider: account?.provider,
 					})
 
 					await newUser.save()
@@ -68,12 +69,21 @@ const handler = NextAuth({
 				return false
 			}
 		},
-		jwt({ token, trigger, session }) {
-      if (trigger === "update" && session?.name) {
-        token.name = session.name
-      }
-      return token
-    }
+		jwt({ token, trigger, session, account }) {
+			if (account) {
+				token.provider = account?.provider
+			}
+
+			if (trigger === 'update' && session?.name) {
+				token.name = session.name
+			}
+
+			return token
+		},
+		async session({ session, token }) {
+			// session.provider = token.provider || ''
+			return session
+		}
 	},
 })
 

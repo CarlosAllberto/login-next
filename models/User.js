@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { type } from 'os'
 
 const { Schema } = mongoose
 
@@ -21,12 +22,24 @@ const userSchema = new Schema(
 			type: String,
 			required: false,
 		},
+		provider: {
+			type: String,
+			required: false,
+		},
 		role: {
 			type: String,
-			enum : ['user','admin'],
+			enum: ['user', 'admin'],
 			default: 'user',
 			required: false,
-		}
+		},
+		resetPasswordToken: {
+			type: String,
+			required: false,
+		},
+		resetPasswordExpires: {
+			type: Date,
+			required: false,
+		},
 	},
 	{ timestamps: true },
 )

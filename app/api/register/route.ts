@@ -19,6 +19,7 @@ export const POST = async (req: any) => {
 		name,
 		email,
 		password: hashedPassword,
+		provider: 'credentials',
 	})
 
 	try {

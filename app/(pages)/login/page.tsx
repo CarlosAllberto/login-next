@@ -41,7 +41,7 @@ export default function Login() {
 	const screenRole = (
 		<div className="flex justify-center gap-4">
 			<div className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4 w-4/12">
-				<h3 className="text-center text-white font-semibold text-3xl">Normal</h3>
+				<h3 className="text-center text-white font-semibold text-3xl">User</h3>
 				<p className="text-white/60">
 					Mussum Ipsum, cacilds vidis litro abertis. Per aumento de cachacis, eu reclamis. A ordem
 					dos tratores não altera o pão duris. Tá deprimidis, eu conheço uma cachacis que pode
@@ -135,6 +135,11 @@ export default function Login() {
 					className="cursor-pointer rounded-full"
 					onClick={() => signIn('github', { callbackUrl: '/' })}
 				/>
+			</div>
+			<div className="flex justify-center mt-6">
+				<a href="/register" className="text-white/50 text-center">
+					Não tenho uma conta ainda
+				</a>
 			</div>
 			<Toaster position="top-right" />
 		</form>

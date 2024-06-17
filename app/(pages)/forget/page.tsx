@@ -1,11 +1,8 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import toast, { Toaster } from 'react-hot-toast'
 
 export default function Login() {
-	const router = useRouter()
-
 	const isValidEmail = (email: string) => {
 		const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 		return emailRegex.test(email)
@@ -20,7 +17,7 @@ export default function Login() {
 			return
 		}
 
-		router.replace('/new-password')
+		alert('https://localhost:3000/new-password')
 	}
 
 	return (

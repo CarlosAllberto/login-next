@@ -36,10 +36,6 @@ export default function Home() {
 		if (status === 'authenticated') get()
 	}, [status])
 
-	useEffect(() => {
-		console.log(formData.name)
-	}, [formData])
-
 	const inputChange = (e: any) => {
 		let { name, value } = e.target
 		setFormData({ ...formData, [name]: value })
@@ -124,24 +120,25 @@ export default function Home() {
 						/>
 					</div>
 				) : null}
-				<div>
-					<button
-						className="bg-white ps-5 pe-5 pt-2 pb-2 rounded-md w-full"
-						onClick={() => updatePerfil()}
-					>
-						Salvar alterações
-					</button>
-				</div>
-				<div>
-					<p className="text-white text-center">ou</p>
-				</div>
+				{formData.name ? (
+					<div>
+						<button
+							className="bg-white ps-5 pe-5 pt-2 pb-2 rounded-md w-full"
+							onClick={() => updatePerfil()}
+						>
+							Salvar alterações
+						</button>
+					</div>
+				): null}
 				<div className="flex justify-end gap-2">
-					<button
-						className="border border-gray-500 text-gray-500 ps-5 pe-5 pt-2 pb-2 rounded-md"
-						onClick={() => deleteAccount()}
-					>
-						Delete account
-					</button>
+					{formData.name ? (
+						<button
+							className="border border-gray-500 text-gray-500 ps-5 pe-5 pt-2 pb-2 rounded-md"
+							onClick={() => deleteAccount()}
+						>
+							Delete account
+						</button>
+					) : null}
 					<button
 						className="border border-red-500 text-red-500 ps-5 pe-5 pt-2 pb-2 rounded-md"
 						onClick={() => signOut()}

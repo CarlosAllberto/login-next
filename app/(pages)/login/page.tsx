@@ -16,11 +16,12 @@ export default function Login() {
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
+		role: '',
 	})
 
 	const [error, setError] = useState('')
 
-	const { email, password } = formData
+	const { email, password, role } = formData
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault()
@@ -38,73 +39,110 @@ export default function Login() {
 		router.replace('/')
 	}
 
+	const screenRole = (
+		<div className="flex gap-4">
+			<div className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4">
+				<h3 className="text-center text-white font-semibold text-3xl">Normal</h3>
+				<p className="text-white/60">
+					Mussum Ipsum, cacilds vidis litro abertis. Per aumento de cachacis, eu reclamis. A ordem
+					dos tratores não altera o pão duris. Tá deprimidis, eu conheço uma cachacis que pode
+					alegrar sua vidis. Quem num gosta di mim que vai caçá sua turmis!
+				</p>
+				<button
+					className="bg-white ps-5 pe-5 pt-2 pb-2 rounded-md w-full mt-4"
+					onClick={() => setFormData({ ...formData, role: 'user' })}
+				>
+					Selecionar
+				</button>
+			</div>
+			<div className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4">
+				<h3 className="text-center text-white font-semibold text-3xl">Admin</h3>
+				<p className="text-white/60">
+					Mussum Ipsum, cacilds vidis litro abertis. Per aumento de cachacis, eu reclamis. A ordem
+					dos tratores não altera o pão duris. Tá deprimidis, eu conheço uma cachacis que pode
+					alegrar sua vidis. Quem num gosta di mim que vai caçá sua turmis!
+				</p>
+				<button
+					className="bg-white ps-5 pe-5 pt-2 pb-2 rounded-md w-full mt-4"
+					onClick={() => setFormData({ ...formData, role: 'admin' })}
+				>
+					Selecionar
+				</button>
+			</div>
+		</div>
+	)
+
+	const screenLogin = (
+		<form
+			className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4"
+			onSubmit={handleSubmit}
+		>
+			<div>
+				<h1 className="text-center text-white font-semibold text-4xl">Login</h1>
+			</div>
+			{error ? (
+				<div className="bg-red-300 rounded-md border border-red-800 p-2">
+					<p className="text-red-800">{error}</p>
+				</div>
+			) : null}
+			<div>
+				<input
+					type="email"
+					placeholder="Seu E-mail"
+					className="bg-zinc-900 border border-zinc-800 p-2 rounded-md text-white"
+					name="email"
+					onChange={inputChange}
+					value={email}
+				/>
+			</div>
+			<div>
+				<input
+					type="password"
+					placeholder="Sua senha"
+					className="bg-zinc-900 border border-zinc-800 p-2 rounded-md text-white"
+					name="password"
+					onChange={inputChange}
+					value={password}
+				/>
+			</div>
+			<div>
+				<button className="bg-white ps-5 pe-5 pt-2 pb-2 rounded-md w-full">Login</button>
+			</div>
+			<div>
+				<p className="text-white text-center">ou</p>
+			</div>
+			<div className="flex justify-center gap-4">
+				<Image
+					src="/google.png"
+					alt="google"
+					width={40}
+					height={40}
+					className="cursor-pointer rounded-full"
+					onClick={() => signIn('google', { callbackUrl: '/' })}
+				/>
+				<Image
+					src="/facebook.png"
+					alt="facebook"
+					width={40}
+					height={40}
+					className="cursor-pointer rounded-full"
+					onClick={() => signIn('facebook', { callbackUrl: '/' })}
+				/>
+				<Image
+					src="/github.png"
+					alt="github"
+					width={40}
+					height={40}
+					className="cursor-pointer rounded-full"
+					onClick={() => signIn('github', { callbackUrl: '/' })}
+				/>
+			</div>
+		</form>
+	)
+
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-center p-24">
-			<form
-				className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4"
-				onSubmit={handleSubmit}
-			>
-				<div>
-					<h1 className="text-center text-white font-semibold text-4xl">Login</h1>
-				</div>
-				{error ? (
-					<div className="bg-red-300 rounded-md border border-red-800 p-2">
-						<p className="text-red-800">{error}</p>
-					</div>
-				) : null}
-				<div>
-					<input
-						type="email"
-						placeholder="Seu E-mail"
-						className="bg-zinc-900 border border-zinc-800 p-2 rounded-md text-white"
-						name="email"
-						onChange={inputChange}
-						value={email}
-					/>
-				</div>
-				<div>
-					<input
-						type="password"
-						placeholder="Sua senha"
-						className="bg-zinc-900 border border-zinc-800 p-2 rounded-md text-white"
-						name="password"
-						onChange={inputChange}
-						value={password}
-					/>
-				</div>
-				<div>
-					<button className="bg-white ps-5 pe-5 pt-2 pb-2 rounded-md w-full">Login</button>
-				</div>
-				<div>
-					<p className="text-white text-center">ou</p>
-				</div>
-				<div className="flex justify-center gap-4">
-					<Image
-						src="/google.png"
-						alt="google"
-						width={40}
-						height={40}
-						className="cursor-pointer rounded-full"
-						onClick={() => signIn('google', { callbackUrl: '/' })}
-					/>
-					<Image
-						src="/facebook.png"
-						alt="facebook"
-						width={40}
-						height={40}
-						className="cursor-pointer rounded-full"
-						onClick={() => signIn('facebook', { callbackUrl: '/' })}
-					/>
-					<Image
-						src="/github.png"
-						alt="github"
-						width={40}
-						height={40}
-						className="cursor-pointer rounded-full"
-						onClick={() => signIn('github', { callbackUrl: '/' })}
-					/>
-				</div>
-			</form>
+			{role ? screenLogin : screenRole}
 		</main>
 	)
 }

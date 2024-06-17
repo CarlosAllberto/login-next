@@ -68,6 +68,12 @@ const handler = NextAuth({
 				return false
 			}
 		},
+		jwt({ token, trigger, session }) {
+      if (trigger === "update" && session?.name) {
+        token.name = session.name
+      }
+      return token
+    }
 	},
 })
 

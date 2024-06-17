@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import toast, { Toaster } from 'react-hot-toast'
@@ -17,6 +18,7 @@ export default function Register() {
 		const email = e.target[1].value
 		const password = e.target[2].value
 		const confirmPassword = e.target[3].value
+		const terms = e.target[4].checked
 
 		if (!name || name.length < 8) {
 			toast.error('Name is invalid')
@@ -35,6 +37,11 @@ export default function Register() {
 
 		if (confirmPassword !== password) {
 			toast.error('Passwords are not equal')
+			return
+		}
+
+		if (!terms) {
+			toast.error('It is not possible to proceed without accepting the terms')
 			return
 		}
 
@@ -63,8 +70,8 @@ export default function Register() {
 	}
 
 	const screenRole = (
-		<div className="flex gap-4">
-			<div className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4">
+		<div className="flex justify-center gap-4">
+			<div className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4 w-4/12">
 				<h3 className="text-center text-white font-semibold text-3xl">Normal</h3>
 				<p className="text-white/60">
 					Mussum Ipsum, cacilds vidis litro abertis. Per aumento de cachacis, eu reclamis. A ordem
@@ -78,7 +85,7 @@ export default function Register() {
 					Selecionar
 				</button>
 			</div>
-			<div className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4">
+			<div className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4 w-4/12">
 				<h3 className="text-center text-white font-semibold text-3xl">Admin</h3>
 				<p className="text-white/60">
 					Mussum Ipsum, cacilds vidis litro abertis. Per aumento de cachacis, eu reclamis. A ordem
@@ -153,7 +160,7 @@ export default function Register() {
 			<div>
 				<button className="bg-white ps-5 pe-5 pt-2 pb-2 rounded-md w-full">Register</button>
 			</div>
-			<Toaster position='top-right' />
+			<Toaster position="top-right" />
 		</form>
 	)
 

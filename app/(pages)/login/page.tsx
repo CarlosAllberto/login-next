@@ -39,8 +39,8 @@ export default function Login() {
 	}
 
 	const screenRole = (
-		<div className="flex gap-4">
-			<div className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4">
+		<div className="flex justify-center gap-4">
+			<div className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4 w-4/12">
 				<h3 className="text-center text-white font-semibold text-3xl">Normal</h3>
 				<p className="text-white/60">
 					Mussum Ipsum, cacilds vidis litro abertis. Per aumento de cachacis, eu reclamis. A ordem
@@ -54,7 +54,7 @@ export default function Login() {
 					Selecionar
 				</button>
 			</div>
-			<div className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4">
+			<div className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4 w-4/12">
 				<h3 className="text-center text-white font-semibold text-3xl">Admin</h3>
 				<p className="text-white/60">
 					Mussum Ipsum, cacilds vidis litro abertis. Per aumento de cachacis, eu reclamis. A ordem
@@ -99,8 +99,10 @@ export default function Login() {
 					value={password}
 				/>
 			</div>
-			<div className='flex justify-end'>
-				<a href="/forget" className="text-white/50 text-center">Esqueci a senha</a>
+			<div className="flex justify-end">
+				<a href="/forget" className="text-white/50 text-center">
+					Esqueci a senha
+				</a>
 			</div>
 			<div>
 				<button className="bg-white ps-5 pe-5 pt-2 pb-2 rounded-md w-full">Login</button>
@@ -134,7 +136,7 @@ export default function Login() {
 					onClick={() => signIn('github', { callbackUrl: '/' })}
 				/>
 			</div>
-			<Toaster position='top-right' />
+			<Toaster position="top-right" />
 		</form>
 	)
 

@@ -1,14 +1,13 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-
 import Image from 'next/image'
 import { useSession, signOut } from 'next-auth/react'
+import toast, { Toaster } from 'react-hot-toast'
 
 export default function Home() {
 	const router = useRouter()
 	const { data: session, update, status } = useSession()
-	const [error, setError] = useState('')
 	const [formData, setFormData]: any = useState({
 		name: '',
 		role: '',
@@ -28,7 +27,7 @@ export default function Home() {
 					setFormData(data)
 				}
 			} catch (error) {
-				setError('Error, try again')
+				toast.error('Error, try again')
 				console.log(error)
 			}
 		}
@@ -57,12 +56,11 @@ export default function Home() {
 					},
 				})
 				if (res.status === 200) {
-					setError('')
 					alert('Conta deletada')
 					router.push('/login')
 				}
 			} catch (error) {
-				setError('Error, try again')
+				toast.error('Error, try again')
 				console.log(error)
 			}
 		} else {
@@ -85,11 +83,11 @@ export default function Home() {
 			})
 			if (res.status === 200) {
 				update({ name: name })
-				setError('')
+				toast.error('')
 				alert('Pefil atualizado')
 			}
 		} catch (error) {
-			setError('Error, try again')
+			toast.error('Error, try again')
 			console.log(error)
 		}
 	}
@@ -106,11 +104,6 @@ export default function Home() {
 						className="rounded-full"
 					/>
 				</div>
-				{error ? (
-					<div className="bg-red-300 rounded-md border border-red-800 p-2">
-						<p className="text-red-800">{error}</p>
-					</div>
-				) : null}
 				<h1 className="text-center text-white font-normal text-2xl">
 					Bem vindo{' '}
 					<span className="font-semibold">
@@ -154,6 +147,7 @@ export default function Home() {
 					>
 						Logout
 					</button>
+					<Toaster position='top-right' />
 				</div>
 			</div>
 		</main>

@@ -1,10 +1,9 @@
 'use client'
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-// toast
+import toast, { Toaster } from 'react-hot-toast'
 
 export default function Register() {
-	const [error, setError] = useState('')
 	const [role, setRole] = useState('')
 	const router = useRouter()
 
@@ -20,22 +19,22 @@ export default function Register() {
 		const confirmPassword = e.target[3].value
 
 		if (!name || name.length < 8) {
-			setError('Name is invalid')
+			toast.error('Name is invalid')
 			return
 		}
 
 		if (!isValidEmail(email)) {
-			setError('Email is invalid')
+			toast.error('Email is invalid')
 			return
 		}
 
 		if (!password || password.length < 8) {
-			setError('Password is invalid')
+			toast.error('Password is invalid')
 			return
 		}
 
 		if (confirmPassword !== password) {
-			setError('Passwords are not equal')
+			toast.error('Passwords are not equal')
 			return
 		}
 
@@ -52,14 +51,13 @@ export default function Register() {
 				}),
 			})
 			if (res.status === 400) {
-				setError('The email already in use')
+				toast.error('The email already in use')
 			}
 			if (res.status === 200) {
-				setError('')
 				router.push('/login')
 			}
 		} catch (error) {
-			setError('Error, try again')
+			toast.error('Error, try again')
 			console.log(error)
 		}
 	}
@@ -105,11 +103,6 @@ export default function Register() {
 			<div>
 				<h1 className="text-center text-white font-semibold text-4xl">Login</h1>
 			</div>
-			{error ? (
-				<div className="bg-red-300 rounded-md border border-red-800 p-2">
-					<p className="text-red-800">{error}</p>
-				</div>
-			) : null}
 			<div>
 				<input
 					type="text"
@@ -160,6 +153,7 @@ export default function Register() {
 			<div>
 				<button className="bg-white ps-5 pe-5 pt-2 pb-2 rounded-md w-full">Register</button>
 			</div>
+			<Toaster position='top-right' />
 		</form>
 	)
 

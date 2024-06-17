@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { signIn } from 'next-auth/react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import toast, { Toaster } from 'react-hot-toast'
 
 export default function Login() {
 	const router = useRouter()
@@ -19,8 +20,6 @@ export default function Login() {
 		role: '',
 	})
 
-	const [error, setError] = useState('')
-
 	const { email, password, role } = formData
 
 	const handleSubmit = async (e: any) => {
@@ -33,7 +32,7 @@ export default function Login() {
 		})
 
 		if (result?.error) {
-			return setError('E-mail ou senha invalidos')
+			return toast.error('E-mail ou senha invalidos')
 		}
 
 		router.replace('/')
@@ -80,11 +79,6 @@ export default function Login() {
 			<div>
 				<h1 className="text-center text-white font-semibold text-4xl">Login</h1>
 			</div>
-			{error ? (
-				<div className="bg-red-300 rounded-md border border-red-800 p-2">
-					<p className="text-red-800">{error}</p>
-				</div>
-			) : null}
 			<div>
 				<input
 					type="email"
@@ -104,6 +98,9 @@ export default function Login() {
 					onChange={inputChange}
 					value={password}
 				/>
+			</div>
+			<div className='flex justify-end'>
+				<a href="/forget" className="text-white/50 text-center">Esqueci a senha</a>
 			</div>
 			<div>
 				<button className="bg-white ps-5 pe-5 pt-2 pb-2 rounded-md w-full">Login</button>
@@ -137,6 +134,7 @@ export default function Login() {
 					onClick={() => signIn('github', { callbackUrl: '/' })}
 				/>
 			</div>
+			<Toaster position='top-right' />
 		</form>
 	)
 

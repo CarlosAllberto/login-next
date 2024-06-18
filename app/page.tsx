@@ -13,6 +13,7 @@ export default function Home() {
 		name: '',
 		role: '',
 	})
+	const [image, setImage] = useState<any>()
 
 	useEffect(() => {
 		let get = async () => {
@@ -32,15 +33,22 @@ export default function Home() {
 				console.log(error)
 			}
 		}
-
+		
 		if (status === 'authenticated') get()
-	}, [status])
-
+		}, [status])
+	
 	const inputChange = (e: any) => {
 		let { name, value } = e.target
 		setFormData({ ...formData, [name]: value })
 	}
 
+	const ImageChange = (e: any) => {
+		if (!e.target.files || e.target.files.length === 0) return setImage(undefined)
+			setImage(URL.createObjectURL(e.target.files[0]))
+		let input: any = document.querySelector('#image')
+		input.value = null
+	}
+	
 	const deleteAccount = async () => {
 		let email = session?.user?.email
 		let confirm = window.prompt(`Para excluir a conta digite \"${email}\". Isso é irreversivel`)
@@ -53,7 +61,7 @@ export default function Home() {
 					},
 				})
 				if (res.status === 200) {
-					alert('Conta deletada')
+					toast.success('Conta deletada')
 					router.push('/login')
 				}
 			} catch (error) {
@@ -61,7 +69,7 @@ export default function Home() {
 				console.log(error)
 			}
 		} else {
-			alert('Configuração abortada')
+			toast('Configuração abortada')
 		}
 	}
 
@@ -80,8 +88,7 @@ export default function Home() {
 			})
 			if (res.status === 200) {
 				update({ name: name })
-				toast.error('')
-				alert('Pefil atualizado')
+				toast.success('Pefil atualizado')
 			}
 		} catch (error) {
 			toast.error('Error, try again')
@@ -92,14 +99,38 @@ export default function Home() {
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-center p-24">
 			<div className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4">
-				<div className="flex justify-center">
-					<Image
-						src={session?.user?.image || '/avatar.svg'}
-						alt="avatar"
-						width={80}
-						height={80}
-						className="rounded-full"
-					/>
+				<div>
+					<div className="flex justify-center">
+						{formData.name ? (
+							<>
+								<label htmlFor="image">
+									<Image
+										src={image || session?.user?.image || '/avatar.svg'}
+										alt="avatar"
+										width={80}
+										height={80}
+										className="rounded-full object-cover cursor-pointer aspect-square"
+									/>
+								</label>
+								<input type="file" name="image" id="image" className='hidden' onChange={ImageChange} />
+							</>
+						) : (
+							<Image
+								src={session?.user?.image || '/avatar.svg'}
+								alt="avatar"
+								width={80}
+								height={80}
+								className="rounded-full object-cover cursor-pointer aspect-square"
+							/>
+						)}
+					</div>
+					{image ? (
+						<div className="flex justify-center">
+							<button className="bg-zinc-800 text-white py-2 px-4 rounded-lg mt-5" onClick={() => setImage('')}>
+								Remover Imagem
+							</button>
+						</div>
+					) : null}
 				</div>
 				<h1 className="text-center text-white font-normal text-2xl">
 					Bem vindo{' '}

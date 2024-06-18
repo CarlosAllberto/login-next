@@ -17,7 +17,7 @@ export default function Login() {
 			return
 		}
 
-		alert('https://localhost:3000/new-password')
+		toast('https://localhost:3000/new-password')
 	}
 
 	return (

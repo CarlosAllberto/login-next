@@ -47,7 +47,7 @@ const handler = NextAuth({
 		}),
 	],
 	callbacks: {
-		async signIn({ user, account }) {			
+		async signIn({ user, account }) {
 			if (account?.provider == 'credentials') {
 				return true
 			}
@@ -81,9 +81,9 @@ const handler = NextAuth({
 			return token
 		},
 		async session({ session, token }: any) {
-			session.provider = token.provider || ''
+			session.user.provider = token.provider
 			return session
-		}
+		},
 	},
 })
 

@@ -1,30 +1,27 @@
 'use client'
 
 import toast, { Toaster } from 'react-hot-toast'
+import { forgetAction } from './actions'
+import { useFormState } from 'react-dom'
+import { useEffect } from 'react'
+
+const initialState = {
+  email: null,
+}
 
 export default function Login() {
-	const isValidEmail = (email: string) => {
-		const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
-		return emailRegex.test(email)
-	}
+	const [state, formAction] = useFormState<any>(forgetAction, initialState)
 
-	const handleSubmit = async (e: any) => {
-		e.preventDefault()
-		const email = e.target[0].value
-
-    if (!isValidEmail(email)) {
-			toast.error('Email is invalid')
-			return
-		}
-
-		toast('https://localhost:3000/new-password')
-	}
+	useEffect(() => {
+		if (state.message) toast(state.message)
+			if (state.error) toast.error(state.error)
+	}, [state])
 
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-center p-24">
 			<form
 				className="border border-zinc-800 rounded-3xl p-16 bg-zinc-900 flex flex-col gap-4 w-4/12"
-				onSubmit={handleSubmit}
+				action={formAction}
 			>
 				<div>
 					<h1 className="text-center text-white font-semibold text-4xl mb-5">Esqueci a senha</h1>
@@ -43,7 +40,7 @@ export default function Login() {
 				<div>
 					<button className="bg-white ps-5 pe-5 pt-2 pb-2 rounded-md w-full">Enviar</button>
 				</div>
-				<Toaster position='top-right' />
+				<Toaster position="top-right" />
 			</form>
 		</main>
 	)
